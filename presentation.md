@@ -131,14 +131,6 @@ Terraform saves record of infrastructure state in JSON.
 
 ---
 
-### Demo time
-
-Continuous delivery with Terraform from [TravisCI](http://travis-ci.org)
-
-[github.com/mdb/terraform-example](htps://github.com/mdb/terraform-example)
-
----
-
 ### Thesis statement
 
 terraform
@@ -149,7 +141,39 @@ software engineering practices (git, code review, CI)
 
 ---
 
-### TravisCI will...
+### Example
+
+[github.com/mdb/terraform-example](htps://github.com/mdb/terraform-example)
+
+* demos continuous delivery with Terraform from [TravisCI](http://travis-ci.org)
+* turns `mikeball.me` from 1) nothing into 2) a functional website
+
+---
+
+# Before TravisCI build...
+
+---
+
+<img src="images/demo_1.png" />
+
+---
+
+### After TravisCI build/deploy
+
+[mikeball.me](http://mikeball.me)
+
+---
+
+### How'd this happen?
+
+1. merge "genesis" [PR #2](https://github.com/mdb/terraform-example/pull/2)
+2. TravisCI creates builds/deploys: [travis-ci.org/mdb/terraform-example](https://travis-ci.org/mdb/terraform-example/builds/127358870)
+
+---
+
+### What happens in TravisCI?
+
+As per instructions in the `.travis.yml` CI config file, TravisCI:
 
 1. use Node.js to compile source to a directory of static HTML, CSS, and image files
 2. if `master`, execute `terraform apply` to configure DNS & AWS S3 & deploy the site at `mikeball.me`
@@ -168,37 +192,19 @@ software engineering practices (git, code review, CI)
 
 ---
 
-The "kinda" demo...
+### What about making a change?
 
-turns `mikeball.me` from 1) nothing into 2) a functional website
-
----
-
-<img src="images/demo_1.png" />
+Demo time!
 
 ---
 
-<a href="https://github.com/mdb/terraform-example/pull/1"><img src="images/demo_2.png" /></a>
+### PR #3
 
----
+[mdb/terraform-example/pull/3](https://github.com/mdb/terraform-example/pull/3)
 
-<img src="images/demo_3.png" />
+Slight HTML edit to source a CSS file
 
----
-
-<a href="https://travis-ci.org/mdb/terraform-example/builds/127083558"><img src="images/demo_4.png" /></a>
-
----
-
-<a href="https://github.com/mdb/terraform-example/pull/1"><img src="images/demo_5.png" /></a>
-
----
-
-<a href="https://travis-ci.org/mdb/terraform-example/builds/127086149"><img src="images/demo_6.png" /></a>
-
----
-
-[terraform-example/terraform/terraform.tfstate](https://github.com/mdb/terraform-example/blob/master/terraform/terraform.tfstate)
+(maybe not the most infrastructure-intensive change but hopefully you see my point)
 
 ---
 
@@ -223,11 +229,15 @@ codified infrastructure managed like software source code via code reviews!
 
 ---
 
-### VS other tools
+# Some more about Terraform...
 
 ---
 
-### gophercloud, Fog, etc.
+### Terraform VS other tools
+
+---
+
+### Tool category 1: gophercloud, Fog, etc.
 
 API client libraries vs. syntax for describing cloud resources
 
@@ -252,7 +262,7 @@ resource "aws_instance" "my_server" {
 
 ---
 
-### Chef, Puppet, etc.
+### Tool category 2: Chef, Puppet, etc.
 
 Individual machine management vs. higher level datacenter/service abstraction
 
@@ -282,8 +292,6 @@ Good at...
 <img src="images/config_management_2.png" />
 
 ---
-
-### CloudFormation, Heat, etc.
 
 Provider-specific vs. multi-provider agnostic
 
@@ -355,7 +363,13 @@ says Paul Hinze, Terraform core contributor
 
 ### Custom providers
 
+What is a provider?
+
 > A provider in Terraform is responsible for the lifecycle of a resource: create, read, update, delete
+
+says terraform.io
+
+(i.e. AWS, Heroku, `your-internal-service`)
 
 ---
 
@@ -365,16 +379,21 @@ Write your own for internal services; good intro to Golang!
 
 * abstract away per-team business logic to a shared `terraform-provider-${foo}`
 * ensure against lock-in; `tf` changes are cheap
-* implement [ResourceProvider](https://github.com/hashicorp/terraform/blob/master/terraform/resource_provider.go) interface
+* to create, implement Terraform's [ResourceProvider](https://github.com/hashicorp/terraform/blob/master/terraform/resource_provider.go) interface
 
 [Read more &raquo;](https://www.terraform.io/docs/plugins/provider.html)
 
 ---
 
-### Gotchas
+### Finally: some gotchas
 
 * sensitive data in `tfstate`
-* edits outside of remote state get wacky
+* edits outside of terraform get wacky
 * "destructive" actions can will yield downtime
+* confession: I manually edited domain DNS servers to match A record name servers
+
+---
+
+# Questions?
 
 ---
