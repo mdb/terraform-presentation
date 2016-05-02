@@ -1,0 +1,16 @@
+.slide-content img {
+  display: block;
+  margin: -1em auto 0 auto;
+  width: auto;
+}
+
+#slide-4 {
+  padding: 0;
+}
+
+#slide-24 img,
+#slide-25 img,
+#slide-26 img,
+#slide-27 img {
+  border: 2px solid #ccc;
+}
