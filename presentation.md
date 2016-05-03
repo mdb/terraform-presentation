@@ -299,6 +299,8 @@ Good at...
 
 ---
 
+### Tool category 3: CloudFormation, Heat
+
 Provider-specific vs. multi-provider agnostic
 
 ---
