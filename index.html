@@ -679,35 +679,44 @@ pre .xml .cdata {
 </section>
   </div>
   <div class="slide hidden -" id="slide-3">
-    <section class="slide-content"><p><img src="images/comcast_logo.png" /></p>
+    <section class="slide-content"><h3 id="follow-along">Follow along</h3>
+<p>Slides are here:</p>
+<p><a href="https://mdb.github.io/terraform-presentation">mdb.github.io/terraform-presentation</a></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-4">
-    <section class="slide-content"><p><img src="images/xtv.png" /></p>
+    <section class="slide-content"><p><img src="images/comcast_logo.png" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-5">
-    <section class="slide-content"><h1 id="senior-dev-day">Senior Dev Day</h1>
+    <section class="slide-content"><p><img src="images/xtv.png" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-6">
-    <section class="slide-content"><p><img src="images/xfinity_origin.png" /></p>
+    <section class="slide-content"><h1 id="relevancy-to-senior-dev-day-">Relevancy to Senior Dev Day?</h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-7">
-    <section class="slide-content"><h1 id="enter-terraform">Enter Terraform</h1>
+    <section class="slide-content"><p><img src="images/xfinity_origin.png" /></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-8">
+    <section class="slide-content"><h3 id="enter-terraform">Enter Terraform</h3>
+<p>A helpful tool towards this goal.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-9">
     <section class="slide-content"><h3 id="what-is-terraform-">What is Terraform?</h3>
 <blockquote>
 <p>Terraform provides a common configuration to launch infrastructure &mdash; from physical and virtual servers to email and DNS providers.</p>
 </blockquote>
 <p>Says <a href="https://www.terraform.io/">terraform.io</a></p>
+<p>(oh, and <a href="https://www.hashicorp.com/">HashiCorp</a> built it)</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-9">
+  <div class="slide hidden -" id="slide-10">
     <section class="slide-content"><h3 id="huh-">Huh?</h3>
+<p>What does this definition mean?</p>
 <ul>
 <li>build, change, version infrastructure through common config file</li>
 <li>codify everything from physical hardware, VMs, and containers, to email and DNS providers</li>
@@ -715,34 +724,43 @@ pre .xml .cdata {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-10">
-    <section class="slide-content"><h3 id="how-s-that-work-">How&#39;s that work?</h3>
-<p><code>.tf</code> config file + <code>terraform</code> CLI</p>
-</section>
-  </div>
   <div class="slide hidden -" id="slide-11">
-    <section class="slide-content"><h3 id="what-s-that-look-like-">What&#39;s that look like?</h3>
-<pre><code>resource &quot;aws_instance&quot; &quot;my_aws_instance&quot; {
-  instance_type = &quot;m1.small&quot;
-  ami = &quot;${lookup(var.aws_amis, var.aws_region)}&quot;
-}
-
-resource &quot;heroku_app&quot; &quot;my_app&quot; {
-  name = &quot;my-app&quot;
-}</code></pre>
+    <section class="slide-content"><h3 id="how-s-that-work-">How&#39;s that work?</h3>
+<ul>
+<li><code>.tf</code> config file allows teams to describe their infrastructure in simple DSL</li>
+<li><code>terraform</code> CLI creates, changes, and destroys these resources accordingly</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-12">
+    <section class="slide-content"><h3 id="what-s-that-look-like-">What&#39;s that look like?</h3>
+<p>Declare <code>.tf</code> file resources via HCL (HashiCorp Configuration Lanaguage):</p>
+<pre><code>resource &quot;digitalocean_droplet&quot; &quot;web&quot; {
+  name = &quot;tf-web&quot;
+  size = &quot;512mb&quot;
+  image = &quot;centos-5-8-x32&quot;
+  region = &quot;sfo1&quot;
+}
+
+resource &quot;dnsimple_record&quot; &quot;hello&quot; {
+  domain = &quot;example.com&quot;
+  name = &quot;test&quot;
+  value = &quot;${digitalocean_droplet.web.ipv4_address}&quot;
+  type = &quot;A&quot;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-13">
     <section class="slide-content"><h3 id="basic-cli-usage">Basic CLI usage</h3>
-<p>There are more, but these are the basics:</p>
 <ul>
 <li><code>terraform plan</code> to view the execution plan</li>
 <li><code>terraform apply</code> to execute the plan</li>
 <li><code>terraform destroy</code> to destroy infrastructure</li>
 </ul>
+<p>(there are more; these are the basics)</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-13">
+  <div class="slide hidden -" id="slide-14">
     <section class="slide-content"><h3 id="tfstate">tfstate</h3>
 <p>Terraform saves record of infrastructure state in JSON.</p>
 <ul>
@@ -751,17 +769,21 @@ resource &quot;heroku_app&quot; &quot;my_app&quot; {
 </ul>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-14">
-    <section class="slide-content"><h3 id="demo-time-kinda-">Demo time (kinda)</h3>
-<p>Continuous delivery with Terraform from <a href="http://travis-ci.org">TravisCI</a></p>
-<p><a href="htps://github.com/mdb/terraform-example">github.com/mdb/terraform-example</a></p>
-</section>
-  </div>
   <div class="slide hidden -" id="slide-15">
-    <section class="slide-content"><h1 id="a-kinda-demo-">A &quot;kinda&quot; demo?</h1>
+    <section class="slide-content"><h3 id="crud-lifecycle">CRUD lifecycle</h3>
+<p><code>plan</code> + <code>apply</code> resolve what is <em>requested</em> with what <em>exists</em>, using <code>.tf</code>, provider APIs, and <code>tfstate</code>.</p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-16">
+    <section class="slide-content"><h3 id="but-how-to-safely-orchestrate-such-changes-">But how to safely orchestrate such changes?</h3>
+<ul>
+<li>how to coordinate across a team? Across a company?</li>
+<li>how to guarantee safety?</li>
+<li>how to run infrastructure changes through CI?</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-17">
     <section class="slide-content"><h3 id="thesis-statement">Thesis statement</h3>
 <p>terraform
 +
@@ -770,91 +792,107 @@ software engineering practices (git, code review, CI)
 😎</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-17">
-    <section class="slide-content"><h3 id="travisci-will-">TravisCI will...</h3>
-<ol>
-<li>use Node.js to compile source to a directory of static HTML, CSS, and image files</li>
-<li>if <code>master</code>, execute <code>terraform apply</code> to configure DNS &amp; AWS S3 &amp; deploy the site at <code>mikeball.me</code></li>
-</ol>
-</section>
-  </div>
   <div class="slide hidden -" id="slide-18">
-    <section class="slide-content"><h1 id="let-s-tour-the-travis-yml-https-github-com-mdb-terraform-example-blob-master-travis-yml-">Let&#39;s tour the <a href="https://github.com/mdb/terraform-example/blob/master/.travis.yml"><code>.travis.yml</code></a></h1>
+    <section class="slide-content"><h3 id="example">Example</h3>
+<p><a href="https://github.com/mdb/terraform-example">github.com/mdb/terraform-example</a></p>
+<ul>
+<li>demos continuous delivery with Terraform from <a href="http://travis-ci.org">TravisCI</a></li>
+<li>A pull request turned <code>mikeball.me</code> from 1) nothing into 2) a functional website</li>
+</ul>
 </section>
   </div>
   <div class="slide hidden -" id="slide-19">
-    <section class="slide-content"><h1 id="and-let-s-tour-terraform-main-tf-https-github-com-mdb-terraform-example-blob-master-terraform-main-tf-">And let&#39;s tour <a href="https://github.com/mdb/terraform-example/blob/master/terraform/main.tf"><code>terraform/main.tf</code></a></h1>
+    <section class="slide-content"><h1 id="before-travisci-build-">Before TravisCI build...</h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-20">
-    <section class="slide-content"><h1 id="and-let-s-tour-deploy-sh-https-github-com-mdb-terraform-example-blob-master-deploy-sh-">And let&#39;s tour <a href="https://github.com/mdb/terraform-example/blob/master/deploy.sh"><code>deploy.sh</code></a></h1>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-21">
-    <section class="slide-content"><p>The &quot;kinda&quot; demo...</p>
-<p>turns <code>mikeball.me</code> from 1) nothing into 2) a functional website</p>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-22">
     <section class="slide-content"><p><img src="images/demo_1.png" /></p>
 </section>
   </div>
+  <div class="slide hidden -" id="slide-21">
+    <section class="slide-content"><h3 id="after-travisci-build-deploy">After TravisCI build/deploy</h3>
+<p><a href="http://mikeball.me">mikeball.me</a></p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-22">
+    <section class="slide-content"><h3 id="how-d-this-happen-">How&#39;d this happen?</h3>
+<ol>
+<li>merge &quot;genesis&quot; <a href="https://github.com/mdb/terraform-example/pull/2">PR #2</a></li>
+<li>TravisCI creates builds/deploys: <a href="https://travis-ci.org/mdb/terraform-example/builds/127358870">travis-ci.org/mdb/terraform-example</a></li>
+</ol>
+</section>
+  </div>
   <div class="slide hidden -" id="slide-23">
-    <section class="slide-content"><p><a href="https://github.com/mdb/terraform-example/pull/1"><img src="images/demo_2.png" /></a></p>
+    <section class="slide-content"><h3 id="travisci-details-please">TravisCI details please</h3>
+<p>Let&#39;s tour the <a href="https://github.com/mdb/terraform-example/blob/master/.travis.yml"><code>.travis.yml</code></a></p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-24">
-    <section class="slide-content"><p><img src="images/demo_3.png" /></p>
+    <section class="slide-content"><h1 id="and-let-s-tour-deploy-sh-https-github-com-mdb-terraform-example-blob-master-deploy-sh-">And let&#39;s tour <a href="https://github.com/mdb/terraform-example/blob/master/deploy.sh"><code>deploy.sh</code></a></h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-25">
-    <section class="slide-content"><p><a href="https://travis-ci.org/mdb/terraform-example/builds/127083558"><img src="images/demo_4.png" /></a></p>
+    <section class="slide-content"><h1 id="and-let-s-tour-terraform-main-tf-https-github-com-mdb-terraform-example-blob-master-terraform-main-tf-">And let&#39;s tour <a href="https://github.com/mdb/terraform-example/blob/master/terraform/main.tf"><code>terraform/main.tf</code></a></h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-26">
-    <section class="slide-content"><p><a href="https://github.com/mdb/terraform-example/pull/1"><img src="images/demo_5.png" /></a></p>
+    <section class="slide-content"><h3 id="what-about-making-a-change-">What about making a change?</h3>
+<p>Demo time!</p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-27">
-    <section class="slide-content"><p><a href="https://travis-ci.org/mdb/terraform-example/builds/127086149"><img src="images/demo_6.png" /></a></p>
+    <section class="slide-content"><h3 id="pr-3">PR #3</h3>
+<p><a href="https://github.com/mdb/terraform-example/pull/3">mdb/terraform-example/pull/3</a></p>
+<p>Slight HTML edit to source a CSS file</p>
+<p>(maybe not the most infrastructure-intensive change but hopefully you see my point)</p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-28">
-    <section class="slide-content"><p><a href="https://github.com/mdb/terraform-example/blob/master/terraform/terraform.tfstate">terraform-example/terraform/terraform.tfstate</a></p>
-</section>
-  </div>
-  <div class="slide hidden -" id="slide-29">
     <section class="slide-content"><h1 id="-mikeball-me-http-mikeball-me-"><a href="http://mikeball.me">mikeball.me</a></h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-30">
+  <div class="slide hidden -" id="slide-29">
     <section class="slide-content"><h1 id="why-">Why?</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-31">
+  <div class="slide hidden -" id="slide-30">
     <section class="slide-content"><h1 id="quality">Quality</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-32">
-    <section class="slide-content"><p>codified infrastructure managed like software source code via code reviews!</p>
+  <div class="slide hidden -" id="slide-31">
+    <section class="slide-content"><p>Codified infrastructure managed like software source code via code reviews!</p>
 <ul>
 <li>quality at scale</li>
-<li>change is cheap (safe + easy)</li>
+<li>change is cheap &amp; repeatable (safe + easy)</li>
 <li>declarative DSL is preferable to custom business logic</li>
 <li>state backups</li>
 </ul>
 </section>
   </div>
+  <div class="slide hidden -" id="slide-32">
+    <section class="slide-content"><h3 id="more-advanced-usage">More advanced usage</h3>
+<p><code>mdb/terraform-example</code> is a simple example but...</p>
+<ul>
+<li>layer in more sophisticated delivery tool on top of CI</li>
+<li>layer in blue/green deployments and live functional tests</li>
+<li>create pipelines that promote code changes through lower level envs &amp; into prod</li>
+</ul>
+</section>
+  </div>
   <div class="slide hidden -" id="slide-33">
-    <section class="slide-content"><h3 id="vs-other-tools">VS other tools</h3>
+    <section class="slide-content"><h1 id="some-more-about-terraform-">Some more about Terraform...</h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-34">
-    <section class="slide-content"><h3 id="gophercloud-fog-etc-">gophercloud, Fog, etc.</h3>
-<p>API client libraries vs. syntax for describing cloud resources</p>
+    <section class="slide-content"><h3 id="terraform-vs-other-tools">Terraform VS other tools</h3>
 </section>
   </div>
   <div class="slide hidden -" id="slide-35">
+    <section class="slide-content"><h3 id="tool-category-1-gophercloud-fog-etc-">Tool category 1: gophercloud, Fog, etc.</h3>
+<p>API client libraries vs. syntax for describing cloud resources</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-36">
     <section class="slide-content"><pre><code class="lang-ruby"><span class="keyword">if</span> server.<span class="keyword">nil</span>?
   compute.servers.create(<span class="symbol">flavor_id:</span> <span class="number">1</span>, <span class="symbol">image_id:</span> <span class="number">3</span>, <span class="symbol">name:</span> <span class="string">'my_server'</span>)
 <span class="keyword">else</span>
@@ -862,76 +900,70 @@ software engineering practices (git, code review, CI)
 <span class="keyword">end</span></code></pre>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-36">
+  <div class="slide hidden -" id="slide-37">
     <section class="slide-content"><pre><code>resource &quot;aws_instance&quot; &quot;my_server&quot; {
   ami = &quot;ami-408c7f28&quot;
   instance_type = &quot;t1.micro&quot;
 }</code></pre>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-37">
-    <section class="slide-content"><h3 id="chef-puppet-etc-">Chef, Puppet, etc.</h3>
+  <div class="slide hidden -" id="slide-38">
+    <section class="slide-content"><h3 id="tool-category-2-chef-puppet-etc-">Tool category 2: Chef, Puppet, etc.</h3>
 <p>Individual machine management vs. higher level datacenter/service abstraction</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-38">
+  <div class="slide hidden -" id="slide-39">
     <section class="slide-content"><h3 id="config-management">Config management</h3>
 <p>Good at...</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-39">
+  <div class="slide hidden -" id="slide-40">
     <section class="slide-content"><p><img src="images/config_management_0.png" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-40">
+  <div class="slide hidden -" id="slide-41">
     <section class="slide-content"><p><img src="images/config_management_1.png" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-41">
+  <div class="slide hidden -" id="slide-42">
     <section class="slide-content"><h1 id="terraform-is-good-at-">Terraform is good at...</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-42">
+  <div class="slide hidden -" id="slide-43">
     <section class="slide-content"></section>
   </div>
-  <div class="slide hidden -" id="slide-43">
+  <div class="slide hidden -" id="slide-44">
     <section class="slide-content"><p><img src="images/config_management_2.png" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-44">
-    <section class="slide-content"><h3 id="cloudformation-heat-etc-">CloudFormation, Heat, etc.</h3>
-<p>Provider-specific vs. multi-provider agnostic</p>
+  <div class="slide hidden -" id="slide-45">
+    <section class="slide-content"><p>Provider-specific vs. multi-provider agnostic</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-45">
+  <div class="slide hidden -" id="slide-46">
     <section class="slide-content"><h3 id="cloudformation-heat">CloudFormation &amp; Heat</h3>
 <p>Good at...</p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-46">
+  <div class="slide hidden -" id="slide-47">
     <section class="slide-content"><p><img src="images/single_cloud.png" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-47">
+  <div class="slide hidden -" id="slide-48">
     <section class="slide-content"><h1 id="terraform-is-good-at-">Terraform is good at...</h1>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-48">
+  <div class="slide hidden -" id="slide-49">
     <section class="slide-content"><p><img src="images/multi_cloud.png" /></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-49">
+  <div class="slide hidden -" id="slide-50">
     <section class="slide-content"><h3 id="multi-provider-support">Multi-provider support</h3>
 <p><a href="https://github.com/hashicorp/terraform/tree/master/builtin/providers">github.com/hashicorp/terraform/tree/master/builtin/providers</a></p>
 </section>
   </div>
-  <div class="slide hidden -" id="slide-50">
-    <section class="slide-content"><h1 id="state">State</h1>
-</section>
-  </div>
   <div class="slide hidden -" id="slide-51">
-    <section class="slide-content"><h3 id="lifecycle">Lifecycle</h3>
-<p><code>plan</code> + <code>apply</code> resolve what you <em>want</em> with what <em>exists</em>, using <code>.tf</code>, provider APIs, and <code>tfstate</code>.</p>
+    <section class="slide-content"><h1 id="some-other-points-of-note-">Some other points of note...</h1>
 </section>
   </div>
   <div class="slide hidden -" id="slide-52">
@@ -963,18 +995,62 @@ software engineering practices (git, code review, CI)
 </section>
   </div>
   <div class="slide hidden -" id="slide-56">
-    <section class="slide-content"><h3 id="gotchas">Gotchas</h3>
-<ul>
-<li>AWS creds in tfstate</li>
-<li>edits outside of remote state</li>
-<li>&quot;destructive&quot; actions can will yield downtime</li>
-</ul>
+    <section class="slide-content"><blockquote>
+<p>If it&#39;s an internet-accessible API that can be modeled declaratively, it can be terraform&#39;d.</p>
+</blockquote>
+<p>says Paul Hinze, Terraform core contributor</p>
 </section>
   </div>
   <div class="slide hidden -" id="slide-57">
+    <section class="slide-content"><h3 id="custom-providers">Custom providers</h3>
+<p>What is a provider?</p>
+<blockquote>
+<p>A provider in Terraform is responsible for the lifecycle of a resource: create, read, update, delete</p>
+</blockquote>
+<p>says terraform.io</p>
+<p>(i.e. AWS, Heroku, <code>your-internal-service</code>)</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-58">
+    <section class="slide-content"><h3 id="write-your-own">Write your own</h3>
+<p>Big benefits!</p>
+<ul>
+<li>Terraform internal services</li>
+<li>abstract away per-team business logic to a shared <code>terraform-provider-${foo}</code></li>
+<li>ensure against provider lock-in; <code>tf</code> changes are cheap</li>
+</ul>
+<p><a href="https://www.terraform.io/docs/plugins/provider.html">Read more &raquo;</a></p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-59">
+    <section class="slide-content"><h3 id="finally-some-gotchas">Finally: some gotchas</h3>
+<ul>
+<li>sensitive data in <code>tfstate</code></li>
+<li>edits outside of terraform get wacky</li>
+<li>&quot;destructive&quot; actions can will yield downtime</li>
+<li>confession: I manually edited domain DNS servers to match A record name servers</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-60">
+    <section class="slide-content"><h3 id="shameful-plug-my-team-is-hiring">Shameful plug: my team is hiring</h3>
+<ul>
+<li>Java, Scala, Python, Ruby, JavaScript, Golang</li>
+<li>distributed systems, TV and video streaming</li>
+<li>Ansible, Packer, Terraform, Consul</li>
+<li>Docker, CentOS, Ubuntu</li>
+<li>OpenStack, CloudFoundry, AWS</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-61">
+    <section class="slide-content"><h1 id="questions-">Questions?</h1>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-62">
     <section class="slide-content"></section>
   </div>
-  <div class="slide hidden" id="slide-58">
+  <div class="slide hidden" id="slide-63">
     <section class="slide-content"><div class="author">
   <h1 class="name">Mike Ball</h1>
     <h3 class="url">

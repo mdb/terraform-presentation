@@ -46,7 +46,9 @@ Slides are here:
 
 ---
 
-# Enter Terraform
+### Enter Terraform
+
+A helpful tool towards this goal.
 
 ---
 
@@ -72,8 +74,8 @@ What does this definition mean?
 
 ### How's that work?
 
-* `.tf` config file allows teams to describe their infrastructure
-* `terraform` CLI creates, changes, and destroys resources accordingly
+* `.tf` config file allows teams to describe their infrastructure in simple DSL
+* `terraform` CLI creates, changes, and destroys these resources accordingly
 
 ---
 
@@ -120,13 +122,14 @@ Terraform saves record of infrastructure state in JSON.
 
 ### CRUD lifecycle
 
-`plan` + `apply` resolve what you _want_ with what _exists_, using `.tf`, provider APIs, and `tfstate`.
+`plan` + `apply` resolve what is _requested_ with what _exists_, using `.tf`, provider APIs, and `tfstate`.
 
 ---
 
-### How to orchestrate such changes across a team?
+### But how to safely orchestrate such changes?
 
-* how to coordinate?
+* how to coordinate across a team? Across a company?
+* how to guarantee safety?
 * how to run infrastructure changes through CI?
 
 ---
@@ -143,10 +146,10 @@ software engineering practices (git, code review, CI)
 
 ### Example
 
-[github.com/mdb/terraform-example](htps://github.com/mdb/terraform-example)
+[github.com/mdb/terraform-example](https://github.com/mdb/terraform-example)
 
 * demos continuous delivery with Terraform from [TravisCI](http://travis-ci.org)
-* turns `mikeball.me` from 1) nothing into 2) a functional website
+* A pull request turned `mikeball.me` from 1) source code into 2) a functional website
 
 ---
 
@@ -171,24 +174,17 @@ software engineering practices (git, code review, CI)
 
 ---
 
-### What happens in TravisCI?
+### TravisCI details please
 
-As per instructions in the `.travis.yml` CI config file, TravisCI:
-
-1. use Node.js to compile source to a directory of static HTML, CSS, and image files
-2. if `master`, execute `terraform apply` to configure DNS & AWS S3 & deploy the site at `mikeball.me`
-
----
-
-# Let's tour the [`.travis.yml`](https://github.com/mdb/terraform-example/blob/master/.travis.yml)
-
----
-
-# And let's tour [`terraform/main.tf`](https://github.com/mdb/terraform-example/blob/master/terraform/main.tf)
+Let's tour the [`.travis.yml`](https://github.com/mdb/terraform-example/blob/master/.travis.yml)
 
 ---
 
 # And let's tour [`deploy.sh`](https://github.com/mdb/terraform-example/blob/master/deploy.sh)
+
+---
+
+# And let's tour [`terraform/main.tf`](https://github.com/mdb/terraform-example/blob/master/terraform/main.tf)
 
 ---
 
@@ -220,12 +216,22 @@ Slight HTML edit to source a CSS file
 
 ---
 
-codified infrastructure managed like software source code via code reviews!
+Codified infrastructure managed like software source code via code reviews!
 
 * quality at scale
-* change is cheap (safe + easy)
+* change is cheap & repeatable (safe + easy)
 * declarative DSL is preferable to custom business logic
 * state backups
+
+---
+
+### More advanced usage
+
+`mdb/terraform-example` is a simple example but...
+
+* layer in more sophisticated delivery tool on top of CI
+* layer in blue/green deployments and live functional tests
+* create pipelines that promote code changes through lower level envs & into prod
 
 ---
 
@@ -375,11 +381,11 @@ says terraform.io
 
 ### Write your own
 
-Write your own for internal services; good intro to Golang!
+Big benefits!
 
+* Terraform internal services
 * abstract away per-team business logic to a shared `terraform-provider-${foo}`
-* ensure against lock-in; `tf` changes are cheap
-* to create, implement Terraform's [ResourceProvider](https://github.com/hashicorp/terraform/blob/master/terraform/resource_provider.go) interface
+* ensure against provider lock-in; `tf` changes are cheap
 
 [Read more &raquo;](https://www.terraform.io/docs/plugins/provider.html)
 
@@ -391,6 +397,16 @@ Write your own for internal services; good intro to Golang!
 * edits outside of terraform get wacky
 * "destructive" actions can will yield downtime
 * confession: I manually edited domain DNS servers to match A record name servers
+
+---
+
+### Shameful plug: my team is hiring
+
+* Java, Scala, Python, Ruby, JavaScript, Golang
+* distributed systems, TV and video streaming
+* Ansible, Packer, Terraform, Consul
+* Docker, CentOS, Ubuntu
+* OpenStack, CloudFoundry, AWS
 
 ---
 
